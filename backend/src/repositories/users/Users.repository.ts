@@ -27,14 +27,6 @@ export class UsersRepository implements IUsersReposiotry {
     }
   }
   async update(id: string, data: Partial<IUserType>): Promise<User> {
-    const userExists = await prismaClient.user.findFirst({
-      where: {
-        id,
-      },
-    });
-    if (!userExists) {
-      throw new AppError('User dont exists in database', 404);
-    }
     try {
       return await prismaClient.user.update({
         where: {
@@ -48,9 +40,9 @@ export class UsersRepository implements IUsersReposiotry {
       throw new AppError('User dont exists in database', 404);
     }
   }
-  async findOne(email: string): Promise<User> {
+  async findByEmail(email: string): Promise<User> {
     try {
-      return prismaClient.user.findFirstOrThrow({
+      return await prismaClient.user.findFirstOrThrow({
         where: {
           email,
         },
@@ -59,16 +51,19 @@ export class UsersRepository implements IUsersReposiotry {
       throw new AppError('User dont exists in database', 404);
     }
   }
-  async delete(id: string): Promise<void> {
-    const userExists = await prismaClient.user.findFirst({
-      where: {
-        id,
-      },
-    });
-
-    if (!userExists) {
+  async findOne(id: string): Promise<User> {
+    try {
+      return await prismaClient.user.findFirstOrThrow({
+        where: {
+          id,
+        },
+      });
+    } catch (err) {
       throw new AppError('User dont exists in database', 404);
     }
+  }
+  async delete(id: string): Promise<void> {
+    await this.findOne(id);
 
     try {
       await prismaClient.user.delete({
