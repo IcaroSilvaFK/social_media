@@ -10,21 +10,58 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+
 model User{
-  id String @id @default(cuid())
-  email String @unique
-  username String @unique
-  password String
-  image Images?
+	id String @id @default(cuid())
+	username String 
+	password String
+	email String
+	avatar_url Image?
+	posts Post[]
+	follows Follow[]
+	createdAt DateTime @default(now()) @map("created_at")
+	updatedAt DateTime @updatedAt @map("updated_at")
+  token Refresh?
 
   @@map("users")
 }
 
-model Images{
-  id String @id @default(cuid())
-  image String
-  userId String @unique @map("user_id")
-  user User @relation(fields: [userId], references: [id])
+model Image{
+	id String @id @default(cuid())
+	userId String @unique @map("user_id")
+	avatar String 
+	user User @relation(fields:[userId], references: [id])
 
-  @@map("images_users")
+  @@map("image")
 }
+ 
+model Post{
+	id String @id @default(cuid())
+	description String 
+	image_cover String?
+	userId String
+	user User @relation(fields:[userId], references:[id])
+	created_at DateTime @default(now())
+	updated_at DateTime @updatedAt
+
+  @@map("posts")
+}
+
+model Follow{
+	id String @id @default(cuid())
+	userId String
+	user User @relation(fields:[userId], references:[id])
+
+  @@map("follows")
+}
+
+model Refresh{
+	id String @id @default(cuid())
+	token String
+	userId String @unique
+	user User @relation(fields:[userId], references:[id])
+
+  @@map("tokens")
+}
+
