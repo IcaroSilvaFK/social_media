@@ -2,8 +2,8 @@ import { Refresh, User } from '@prisma/client';
 import { AppError } from '../../errors/App.error';
 import { compareHash } from '../../helpers/compareHash';
 import { genHashPassword } from '../../helpers/genHashPassword';
-import { IRefreshToken } from '../../repositories/refresh/interfaces/Refresh.interface';
 import { IUsersReposiotry } from '../../repositories/users/interfaces/Users.repository.interface';
+import { ITokenService } from '../token/interface/TokenService.interface';
 import { IUserProps } from './interface/User.interface';
 import {
   IUserService,
@@ -13,7 +13,7 @@ import {
 export class UsersService implements IUserService {
   constructor(
     private readonly usersRepository: IUsersReposiotry,
-    private readonly refreshToken: IRefreshToken
+    private readonly refreshToken: ITokenService
   ) {}
   async create(data: IUserProps): Promise<LoginResponseProps> {
     const { password, ...rest } = data;
