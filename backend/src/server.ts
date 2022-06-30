@@ -1,7 +1,10 @@
 import { app } from './main';
+import {config} from 'dotenv'
 
-const PORT = 8080;
+config()
 
-app.listen(PORT, () => {
-  console.log(`server running in http://localhost:${PORT}`);
+
+
+app.listen(process.env.BACKEND_PORT, () => {
+  console.log(`server running in http://localhost:${process.env.BACKEND_PORT}`);
 });
