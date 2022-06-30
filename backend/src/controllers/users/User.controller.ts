@@ -24,9 +24,7 @@ export class UsersController implements IUsersController {
         username,
       });
 
-      const token = genToken({ payload: user.id! });
-
-      return response.status(201).json({ user, token });
+      return response.status(201).json(user);
     } catch (err) {
       return response.status(500).json({
         message: 'Internal server error',
@@ -45,9 +43,7 @@ export class UsersController implements IUsersController {
     try {
       const userUpdated = await this.usersService.update(id, data);
 
-      return response.status(200).json({
-        user: userUpdated,
-      });
+      return response.status(200).json(userUpdated);
     } catch (err) {
       return response.status(500).json({
         message: 'Internal server error',
@@ -86,11 +82,9 @@ export class UsersController implements IUsersController {
 
     try {
       const user = await this.usersService.login(email, password);
-      const token = genToken({ payload: user.id! });
 
       return response.status(200).json({
         user,
-        token,
       });
     } catch (err) {
       return response.status(500).json({

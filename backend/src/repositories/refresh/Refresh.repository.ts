@@ -5,7 +5,7 @@ import { genToken } from '../../helpers/genToken';
 import { IRefreshToken } from './interfaces/Refresh.interface';
 
 export class RefreshToken implements IRefreshToken {
-  async update(id: string, token: string): Promise<Refresh> {
+  async update(id: string, token?: string): Promise<Refresh> {
     const existsUserInRefresh = await prismaClient.refresh.findFirst({
       where: { userId: id },
     });
@@ -21,10 +21,13 @@ export class RefreshToken implements IRefreshToken {
     return await this.create(id);
   }
   async create(id: string): Promise<Refresh> {
-    const existsUserInRefresh = await prismaClient.refresh.findFirst({
-      where: { userId: id },
+    const tokenExists = await prismaClient.refresh.findFirst({
+      where: {
+        userId: id,
+      },
     });
-    if (!existsUserInRefresh) {
+
+    if (!tokenExists) {
       return await prismaClient.refresh.create({
         data: {
           userId: id,
@@ -32,6 +35,7 @@ export class RefreshToken implements IRefreshToken {
         },
       });
     }
+
     return await prismaClient.refresh.update({
       where: {
         userId: id,
