@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 
-import { genToken } from '../../helpers/genToken';
 import { IUserService } from '../../services/users/interface/UserService.interface';
 import { IUsersController } from './interface/UsersController.interface';
 
@@ -32,8 +31,8 @@ export class UsersController implements IUsersController {
     }
   }
   async update(request: Request, response: Response): Promise<Response> {
-    const { id, data } = request.body;
-
+    const { data } = request.body;
+    const { id } = request.params;
     if (!id) {
       return response.status(404).json({
         message: 'ID is missin a type',
@@ -51,7 +50,7 @@ export class UsersController implements IUsersController {
     }
   }
   async delete(request: Request, response: Response): Promise<Response> {
-    const { id } = request.body;
+    const { id } = request.params;
 
     if (!id) {
       return response.status(404).json({

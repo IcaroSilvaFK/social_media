@@ -4,10 +4,13 @@ import { ImageProps } from './interfaces/Image.interface';
 import { IImageReppsitory } from './interfaces/ImageRepository';
 
 export class ImagesRepository implements IImageReppsitory {
-  async create(data: ImageProps): Promise<Image> {
+  async create({ avatar, userId }: ImageProps): Promise<Image> {
     try {
       return await prismaClient.image.create({
-        data: data,
+        data: {
+          avatar,
+          userId,
+        },
       });
     } catch (err) {
       throw new Error();

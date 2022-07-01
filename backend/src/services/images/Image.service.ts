@@ -6,9 +6,9 @@ import { IImageService } from './interfaces/ImageService';
 export class ImagesService implements IImageService {
   constructor(private readonly imagesRepository: IImageReppsitory) {}
 
-  async create(data: ImageProps): Promise<Image> {
+  async create({ avatar, userId }: ImageProps): Promise<Image> {
     try {
-      return await this.imagesRepository.create(data);
+      return await this.imagesRepository.create({ avatar, userId });
     } catch (err) {
       throw new Error();
     }
