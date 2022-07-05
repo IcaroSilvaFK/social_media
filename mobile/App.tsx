@@ -28,5 +28,3 @@ export default function App() {
     </ThemeProvider>
   );
 }
-
-// expo install expo-font @expo-google-fonts/inter
