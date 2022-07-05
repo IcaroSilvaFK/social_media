@@ -57,11 +57,12 @@ export class UsersService implements IUserService {
     try {
       const { password: currentPassword, ...rest } =
         await this.usersRepository.findByEmail(email);
+
       const { token } = await this.refreshToken.update(rest.id);
+
       if (!compareHash(currentPassword, password)) {
         throw new AppError('Email or password is invalid!', 401);
       }
-
       return { user: rest, token };
     } catch (err) {
       throw new AppError('', 4);
