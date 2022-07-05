@@ -82,9 +82,7 @@ export class UsersController implements IUsersController {
     try {
       const user = await this.usersService.login(email, password);
 
-      return response.status(200).json({
-        user,
-      });
+      return response.status(200).json(user);
     } catch (err) {
       return response.status(500).json({
         message: 'Internal server error',
