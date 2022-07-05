@@ -17,6 +17,11 @@ export const theme = {
       black: '#000'
     }
   },
+  opacity: {
+    'opacity-25': '40',
+    'opacity-50': '80' ,
+    'opacity-75': 'BF',
+  },
   sizes: {},
   fonts: {
     poppins: {
