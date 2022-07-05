@@ -1,21 +1,32 @@
+import AppLoading from 'expo-app-loading';
+import {
+  useFonts,
+  Poppins_300Light,
+  Poppins_400Regular,
+  Poppins_700Bold,
+  Poppins_900Black,
+} from '@expo-google-fonts/poppins';
+import { ThemeProvider } from 'styled-components';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { theme } from './src/styles/theme';
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    Poppins_300Light,
+    Poppins_400Regular,
+    Poppins_700Bold,
+    Poppins_900Black,
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+    <ThemeProvider theme={theme}>
       <StatusBar style='auto' />
-    </View>
+    </ThemeProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 // expo install expo-font @expo-google-fonts/inter
