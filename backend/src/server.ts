@@ -1,10 +1,7 @@
-import 'dotenv/config';
 import { app } from './main';
-import {config} from 'dotenv'
+import { config } from 'dotenv';
 
-config()
-
-
+config();
 
 app.listen(process.env.BACKEND_PORT, () => {
   console.log(`server running in http://localhost:${process.env.BACKEND_PORT}`);
