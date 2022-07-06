@@ -1,4 +1,3 @@
-import { AppError } from '../../errors/App.error';
 import { Post } from '@prisma/client';
 import { IPostRepository } from '../../repositories/posts/interfaces/PostsRepository.inteface';
 import { IPostProps } from './interface/Posts.interface';
