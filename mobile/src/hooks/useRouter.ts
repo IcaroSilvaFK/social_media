@@ -9,5 +9,5 @@ export function useNavigate() {
     navigate(route);
   }
 
-  return push;
+  return { push };
 }

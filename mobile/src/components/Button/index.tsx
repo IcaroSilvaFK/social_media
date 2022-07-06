@@ -1,13 +1,18 @@
-import React, { ReactNode } from 'react';
-import { ButtonProps } from 'react-native';
-import { Container } from './styles';
+import React from 'react';
+import { TouchableOpacityProps } from 'react-native';
+import { Container, Paragraphy } from './styles';
 import { Variants } from './variants';
 
-interface IButtonProps extends ButtonProps {
-  children: ReactNode;
+interface IButtonProps extends TouchableOpacityProps {
+  title: string;
   variant: Variants;
+  onPress: () => void;
 }
 
-export function Button({ children, variant }: IButtonProps) {
-  return <Container variant={variant}>{children}</Container>;
+export function Button({ title, variant, onPress }: IButtonProps) {
+  return (
+    <Container variant={variant} onPress={onPress}>
+      <Paragraphy variant={variant}>{title}</Paragraphy>
+    </Container>
+  );
 }
