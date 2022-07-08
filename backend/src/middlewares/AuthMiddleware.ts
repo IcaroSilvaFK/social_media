@@ -19,6 +19,8 @@ export async function AuthMiddleware(
 
     verify(token, process.env.SECRET as string);
 
+    request.token = token
+
     next();
   } catch (err) {
     return response.status(401).json({
