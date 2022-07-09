@@ -5,12 +5,19 @@ import { IPostRepository } from './interfaces/PostsRepository.inteface';
 import { IPostType } from './interfaces/Posts.interface';
 
 export class PostsRepository implements IPostRepository {
+  async list(): Promise<Post[]> {
+    try {
+      return await prismaClient.post.findMany();
+    } catch (err) {
+      throw new Error('');
+    }
+  }
   async create(user_id: string, data: IPostType): Promise<Post> {
     try {
       return await prismaClient.post.create({
         data: {
           userId: user_id,
-          ...data
+          ...data,
         },
       });
     } catch (err) {

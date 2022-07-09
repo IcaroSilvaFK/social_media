@@ -6,6 +6,14 @@ import { IPostService } from './interface/PostsService.interface';
 export class PostService implements IPostService {
   constructor(private readonly postsRepository: IPostRepository) {}
 
+  async list(): Promise<Post[]> {
+    try {
+      return await this.postsRepository.list();
+    } catch (err) {
+      throw new Error();
+    }
+  }
+
   async create(user_id: string, data: IPostProps): Promise<Post> {
     try {
       return await this.postsRepository.create(user_id, data);
