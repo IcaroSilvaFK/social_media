@@ -12,12 +12,14 @@ export class PostsRepository implements IPostRepository {
       throw new Error('');
     }
   }
-  async create(user_id: string, data: IPostType): Promise<Post> {
+
+  async create(user_id: string, { description, image_cover }: IPostType): Promise<Post> {
     try {
       return await prismaClient.post.create({
         data: {
           userId: user_id,
-          ...data,
+          description,
+          image_cover,
         },
       });
     } catch (err) {
@@ -25,14 +27,15 @@ export class PostsRepository implements IPostRepository {
     }
   }
 
-  async update(id: string, data: Partial<IPostType>): Promise<Post> {
+  async update(id: string, { description, image_cover }: Partial<IPostType>): Promise<Post> {
     try {
       return await prismaClient.post.update({
         where: {
           id,
         },
         data: {
-          ...data,
+          description,
+          image_cover,
         },
       });
     } catch (err) {

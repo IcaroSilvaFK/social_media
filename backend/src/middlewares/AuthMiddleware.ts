@@ -17,14 +17,11 @@ export async function AuthMiddleware(
   try {
     const [, token] = authorization?.split(' ') || [];
 
-    const payload = verify(
-      token,
-      process.env.SECRET as string
-    );
+    const payload = verify(token, process.env.SECRET as string);
 
     const user_id = payload;
 
-    response.user_id = user_id;
+    request.token = user_id as string;
 
     next();
   } catch (err) {

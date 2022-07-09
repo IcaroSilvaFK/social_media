@@ -1,4 +1,1 @@
-export interface IPostProps {
-  description: string;
-  image_cover?: string;
-}
+export type IPostType = Pick<Post, 'description' | 'image_cover'>;

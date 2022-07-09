@@ -7,7 +7,7 @@ export function genToken({ payload }: { payload: string }) {
     },
     process.env.SECRET as string,
     {
-      expiresIn: 300,
+      expiresIn: 300 * 300,
     }
   );
 }

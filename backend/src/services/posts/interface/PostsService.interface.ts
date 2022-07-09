@@ -1,9 +1,9 @@
 import { Post } from '@prisma/client';
-import { IPostProps } from './Posts.interface';
+import { IPostType } from './Posts.interface';
 
 export interface IPostService {
   list(): Promise<Post[]>;
-  create(user_id: string, data: IPostProps): Promise<Post>;
-  update(id: string, data: IPostProps): Promise<Post>;
-  delete(id: string): Promise<void>;
+  create(user_id: string, post: IPostType): Promise<Post>;
+  update(post_id: string, updatedPost: IPostType): Promise<Post>;
+  delete(post_id: string): Promise<void>;
 }
