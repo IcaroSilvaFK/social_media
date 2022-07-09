@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { verify } from 'jsonwebtoken';
+import { verify, JwtPayload } from 'jsonwebtoken';
 
 export async function AuthMiddleware(
   request: Request,
@@ -15,9 +15,13 @@ export async function AuthMiddleware(
   }
 
   try {
-    const [, token] = authorization.split(' ');
+    const [, token] = authorization?.split(' ') || [];
 
-    verify(token, process.env.SECRET as string);
+    const payload = verify(token, process.env.SECRET as string);
+
+    const user_id = payload;
+
+    request.token = user_id as string;
 
     next();
   } catch (err) {
