@@ -16,7 +16,7 @@ export class PostsController implements IPostController {
 
       return response.status(200).json(posts);
     } catch (err) {
-      const globalError = err as AppError;
+      const globalError = (<AppError>err);
     
       return response.status(globalError.httpStatus).json({
         message: globalError.message
@@ -47,7 +47,7 @@ export class PostsController implements IPostController {
       });
 
     } catch (err) {
-      const globalError = err as AppError;
+      const globalError = (<AppError>err);
     
       return response.status(globalError.httpStatus).json({
         message: globalError.message
@@ -70,7 +70,7 @@ export class PostsController implements IPostController {
         message: 'Post deleted success',
       });
     } catch (err) {
-      const globalError = err as AppError;
+      const globalError = (<AppError>err);
     
       return response.status(globalError.httpStatus).json({
         message: globalError.message
@@ -94,7 +94,7 @@ export class PostsController implements IPostController {
 
       return response.status(200).json(postUpdated);
     } catch (err) {
-      const globalError = err as AppError;
+      const globalError = (<AppError>err);
     
       return response.status(globalError.httpStatus).json({
         message: globalError.message

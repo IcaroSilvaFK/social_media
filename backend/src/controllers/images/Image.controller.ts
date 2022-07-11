@@ -22,7 +22,7 @@ export class ImageController implements IImageController {
         status: 'created',
       });
     } catch (err) {
-      const globalError = err as AppError;
+      const globalError = (<AppError>err);
     
       return response.status(globalError.httpStatus).json({
         message: globalError.message
@@ -43,7 +43,7 @@ export class ImageController implements IImageController {
         message: 'Image updated',
       });
     } catch (err) {
-      const globalError = err as AppError;
+      const globalError = (<AppError>err);
     
       return response.status(globalError.httpStatus).json({
         message: globalError.message
@@ -64,7 +64,7 @@ export class ImageController implements IImageController {
         message: 'Image deleted',
       });
     } catch (err) {
-      const globalError = err as AppError;
+      const globalError = (<AppError>err);
     
       return response.status(globalError.httpStatus).json({
         message: globalError.message

@@ -26,7 +26,7 @@ export class UsersController implements IUsersController {
 
       return response.status(201).json(user);
     } catch (err) {
-      const globalError = err as AppError;
+      const globalError =(<AppError>err);
     
       return response.status(globalError.httpStatus).json({
         message: globalError.message
@@ -47,7 +47,7 @@ export class UsersController implements IUsersController {
 
       return response.status(200).json(userUpdated);
     } catch (err) {
-      const globalError = err as AppError;
+      const globalError = (<AppError>err);
     
       return response.status(globalError.httpStatus).json({
         message: globalError.message
@@ -70,7 +70,7 @@ export class UsersController implements IUsersController {
         message: 'User deleted success',
       });
     } catch (err) {
-      const globalError = err as AppError;
+      const globalError =(<AppError>err);
     
       return response.status(globalError.httpStatus).json({
         message: globalError.message
@@ -91,7 +91,7 @@ export class UsersController implements IUsersController {
 
       return response.status(200).json(user);
     } catch (err) {
-      const globalError = err as AppError;
+      const globalError =(<AppError>err);
     
       return response.status(globalError.httpStatus).json({
         message: globalError.message
