@@ -3,13 +3,27 @@ import { prismaClient } from '../../configs/prisma';
 import { AppError } from '../../errors/App.error';
 import { IPostRepository } from './interfaces/PostsRepository.inteface';
 import { IPostType } from './interfaces/Posts.interface';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
 export class PostsRepository implements IPostRepository {
   async list(): Promise<Post[]> {
     try {
       return await prismaClient.post.findMany();
     } catch (err) {
-      throw new Error('');
+      if(err instanceof PrismaClientKnownRequestError){
+        switch (err.code) {
+          case 'P2002':{
+            throw new AppError('Unique constraint failed',500)
+          }
+          case 'P2003' :{
+            throw new AppError('Foreign key constraint failed',500)
+          }
+          default :{
+            throw new AppError(err.message, 500)
+          }
+        }
+      }
+      throw new AppError('Internal server Error', 500)
     }
   }
 
@@ -23,7 +37,29 @@ export class PostsRepository implements IPostRepository {
         },
       });
     } catch (err) {
-      throw new Error('');
+      if(err instanceof PrismaClientKnownRequestError){
+        switch(err.code){
+          case 'P2002':{
+            throw new AppError('Unique constraint failed',500)
+          }
+          case 'P2003' :{
+            throw new AppError('Foreign key constraint failed',500)
+          }
+          case 'P2012':{
+            throw new AppError("Missing a required value", 500)
+          }
+          case 'P2013':{
+            throw new AppError('Missing the required argument',400)
+          }
+          case 'P2014':{
+            throw new AppError('The change you are trying to make would violate the required relation t',400)
+          }
+          default:{
+            throw new AppError(err.message, 500)
+          }
+        }
+      }
+      throw new AppError('Internal server error', 500)
     }
   }
 
@@ -39,7 +75,23 @@ export class PostsRepository implements IPostRepository {
         },
       });
     } catch (err) {
-      throw new AppError('Post dont exist anymore', 404);
+      if(err instanceof PrismaClientKnownRequestError){
+        switch(err.code){
+          case 'P2002':{
+            throw new AppError('Unique constraint failed',500)
+          }
+          case 'P2003' :{
+            throw new AppError('Foreign key constraint failed',500)
+          }
+          case 'P2012':{
+            throw new AppError("Missing a required value", 500)
+          }
+          default:{
+            throw new AppError(err.message, 500)
+          }
+        }
+      } 
+      throw new AppError('Internal server error', 500)
     }
   }
 
@@ -53,7 +105,10 @@ export class PostsRepository implements IPostRepository {
         where: { id },
       });
     } catch (err) {
-      throw new Error();
+      if(err instanceof PrismaClientKnownRequestError){
+        throw new AppError(err.message, 500)
+      }
+      throw new AppError('Internal server error', 500)
     }
   }
 }

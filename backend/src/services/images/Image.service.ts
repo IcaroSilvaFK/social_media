@@ -1,4 +1,5 @@
 import { Image } from '@prisma/client';
+import { AppError } from '../../errors/App.error';
 import { IImageReppsitory } from '../../repositories/images/interfaces/ImageRepository';
 import { ImageProps } from './interfaces/Image.interface';
 import { IImageService } from './interfaces/ImageService';
@@ -10,21 +11,30 @@ export class ImagesService implements IImageService {
     try {
       return await this.imagesRepository.create({ avatar, userId });
     } catch (err) {
-      throw new Error();
+      if(err instanceof AppError){
+        throw new AppError(err.message, err.httpStatus)
+      }
+      throw new AppError('Internal server Error', 500)
     }
   }
   async update(id: string, data: ImageProps): Promise<Image> {
     try {
       return await this.imagesRepository.update(id, data);
     } catch (err) {
-      throw new Error();
+      if(err instanceof AppError){
+        throw new AppError(err.message, err.httpStatus)
+      }
+      throw new AppError('Internal server Error', 500)
     }
   }
   async delete(id: string): Promise<void> {
     try {
       await this.imagesRepository.delete(id);
     } catch (err) {
-      throw new Error();
+      if(err instanceof AppError){
+        throw new AppError(err.message, err.httpStatus)
+      }
+      throw new AppError('Internal serve Error', 500)
     }
   }
 }

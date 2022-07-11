@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { IImageController } from './interface/ImageController.interface';
 import { IImageService } from '../../services/images/interfaces/ImageService';
+import { AppError } from '../../errors/App.error';
 
 export class ImageController implements IImageController {
   constructor(private readonly imagesService: IImageService) {}
@@ -21,7 +22,15 @@ export class ImageController implements IImageController {
         status: 'created',
       });
     } catch (err) {
-      throw new Error();
+      if(err instanceof AppError){
+        return response.status(err.httpStatus).json({
+          message: err.message,
+          cause: err.cause
+        })
+      }
+      return response.status(500).json({
+        message: 'Unexpected error'
+      })
     }
   }
   async update(request: Request, response: Response): Promise<Response> {
@@ -38,7 +47,15 @@ export class ImageController implements IImageController {
         message: 'Image updated',
       });
     } catch (err) {
-      throw new Error();
+      if(err instanceof AppError){
+        return response.status(err.httpStatus).json({
+          message: err.message,
+          cause: err.cause
+        })
+      }
+      return response.status(500).json({
+        message: 'Unexpected error'
+      })
     }
   }
   async delete(request: Request, response: Response): Promise<Response> {
@@ -55,7 +72,15 @@ export class ImageController implements IImageController {
         message: 'Image deleted',
       });
     } catch (err) {
-      throw new Error();
+      if(err instanceof AppError){
+        return response.status(err.httpStatus).json({
+          message: err.message,
+          cause: err.cause
+        })
+      }
+      return response.status(500).json({
+        message: 'Unexpected error'
+      })
     }
   }
 }

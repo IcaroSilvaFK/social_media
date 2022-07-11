@@ -31,11 +31,14 @@ export class UsersService implements IUserService {
       const { password: userpassword, ...user } = newUser;
       return { user, token };
     } catch (err) {
-      throw new AppError('', 400);
+      if(err instanceof AppError){
+        throw new AppError(err.message,err.httpStatus)
+      }
+      throw new AppError('Internal server error',500)
     }
   }
   async update(id: string, data: Partial<IUserProps>): Promise<User> {
-    const userExists = await this.usersRepository.findOne(id);
+    const userExists = await this.usersRepository.findById(id);
     if (!userExists) {
       throw new AppError('User dont exists in database', 404);
     }
@@ -43,14 +46,20 @@ export class UsersService implements IUserService {
     try {
       return await this.usersRepository.update(id, data);
     } catch (err) {
-      throw new AppError('', 500);
+      if(err instanceof AppError){
+        throw new AppError(err.message,err.httpStatus)
+      }
+      throw new AppError('Internal server error',500)
     }
   }
   async delete(id: string): Promise<void> {
     try {
       await this.usersRepository.delete(id);
     } catch (err) {
-      throw new AppError('', 111);
+      if(err instanceof AppError){
+        throw new AppError(err.message,err.httpStatus)
+      }
+      throw new AppError('Internal server error',500)
     }
   }
   async login(email: string, password: string): Promise<LoginResponseProps> {
@@ -65,7 +74,10 @@ export class UsersService implements IUserService {
       }
       return { user: rest, token };
     } catch (err) {
-      throw new AppError('', 4);
+      if(err instanceof AppError){
+        throw new AppError(err.message,err.httpStatus)
+      }
+      throw new AppError('Internal server error',500)
     }
   }
 }

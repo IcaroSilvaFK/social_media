@@ -1,4 +1,5 @@
 import { Post } from '@prisma/client';
+import { AppError } from '../../errors/App.error';
 import { IPostRepository } from '../../repositories/posts/interfaces/PostsRepository.inteface';
 import { IPostType } from './interface/Posts.interface';
 import { IPostService } from './interface/PostsService.interface';
@@ -10,7 +11,10 @@ export class PostService implements IPostService {
     try {
       return await this.postsRepository.list();
     } catch (err) {
-      throw new Error();
+      if(err instanceof AppError){
+        throw new AppError(err.message,err.httpStatus)
+      }
+      throw new AppError('Internal server error',500)
     }
   }
 
@@ -22,7 +26,10 @@ export class PostService implements IPostService {
     try {
       return await this.postsRepository.create(user_id, data);
     } catch (err) {
-      throw new Error();
+      if(err instanceof AppError){
+        throw new AppError(err.message,err.httpStatus)
+      }
+      throw new AppError('Internal server error',500)
     }
   }
 
@@ -34,7 +41,10 @@ export class PostService implements IPostService {
     try {
       return await this.postsRepository.update(post_id, data);
     } catch (err) {
-      throw new Error();
+      if(err instanceof AppError){
+        throw new AppError(err.message,err.httpStatus)
+      }
+      throw new AppError('Internal server error',500)
     }
   }
 
@@ -42,7 +52,10 @@ export class PostService implements IPostService {
     try {
       await this.postsRepository.delete(post_id);
     } catch (err) {
-      throw new Error();
+      if(err instanceof AppError){
+        throw new AppError(err.message,err.httpStatus)
+      }
+      throw new AppError('Internal server error',500)
     }
   }
 }

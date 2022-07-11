@@ -6,5 +6,5 @@ export interface IUsersReposiotry {
   update(id: string, data: Partial<IUserType>): Promise<User>;
   findByEmail(email: string): Promise<User>;
   delete(id: string): Promise<void>;
-  findOne(id: string): Promise<User>;
+  findById(id: string): Promise<User>;
 }
