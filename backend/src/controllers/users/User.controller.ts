@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { AppError } from '../../errors/App.error';
 
 import { IUserService } from '../../services/users/interface/UserService.interface';
 import { IUsersController } from './interface/UsersController.interface';
@@ -25,9 +26,11 @@ export class UsersController implements IUsersController {
 
       return response.status(201).json(user);
     } catch (err) {
-      return response.status(500).json({
-        message: 'Internal server error',
-      });
+      const globalError = err as AppError;
+    
+      return response.status(globalError.httpStatus).json({
+        message: globalError.message
+      })
     }
   }
   async update(request: Request, response: Response): Promise<Response> {
@@ -44,9 +47,11 @@ export class UsersController implements IUsersController {
 
       return response.status(200).json(userUpdated);
     } catch (err) {
-      return response.status(500).json({
-        message: 'Internal server error',
-      });
+      const globalError = err as AppError;
+    
+      return response.status(globalError.httpStatus).json({
+        message: globalError.message
+      })
     }
   }
   async delete(request: Request, response: Response): Promise<Response> {
@@ -65,9 +70,11 @@ export class UsersController implements IUsersController {
         message: 'User deleted success',
       });
     } catch (err) {
-      return response.status(500).json({
-        message: 'Internal server error',
-      });
+      const globalError = err as AppError;
+    
+      return response.status(globalError.httpStatus).json({
+        message: globalError.message
+      })
     }
   }
   async login(request: Request, response: Response): Promise<Response> {
@@ -84,9 +91,11 @@ export class UsersController implements IUsersController {
 
       return response.status(200).json(user);
     } catch (err) {
-      return response.status(500).json({
-        message: 'Internal server error',
-      });
+      const globalError = err as AppError;
+    
+      return response.status(globalError.httpStatus).json({
+        message: globalError.message
+      })
     }
   }
 }

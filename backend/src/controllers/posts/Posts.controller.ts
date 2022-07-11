@@ -16,14 +16,10 @@ export class PostsController implements IPostController {
 
       return response.status(200).json(posts);
     } catch (err) {
-      if(err instanceof AppError){
-        return response.status(err.httpStatus).json({
-          message: err.message,
-          cause: err.cause
-        })
-      }
-      return response.status(500).json({
-        message: 'Unexpected error'
+      const globalError = err as AppError;
+    
+      return response.status(globalError.httpStatus).json({
+        message: globalError.message
       })
     }
   }
@@ -51,14 +47,10 @@ export class PostsController implements IPostController {
       });
 
     } catch (err) {
-      if(err instanceof AppError){
-        return response.status(err.httpStatus).json({
-          message: err.message,
-          cause: err.cause
-        })
-      }
-      return response.status(500).json({
-        message: 'Unexpected error'
+      const globalError = err as AppError;
+    
+      return response.status(globalError.httpStatus).json({
+        message: globalError.message
       })
     }
   }
@@ -78,14 +70,10 @@ export class PostsController implements IPostController {
         message: 'Post deleted success',
       });
     } catch (err) {
-      if(err instanceof AppError){
-        return response.status(err.httpStatus).json({
-          message: err.message,
-          cause: err.cause
-        })
-      }
-      return response.status(500).json({
-        message: 'Unexpected error'
+      const globalError = err as AppError;
+    
+      return response.status(globalError.httpStatus).json({
+        message: globalError.message
       })
     }
   }
@@ -106,14 +94,10 @@ export class PostsController implements IPostController {
 
       return response.status(200).json(postUpdated);
     } catch (err) {
-      if(err instanceof AppError){
-        return response.status(err.httpStatus).json({
-          message: err.message,
-          cause: err.cause
-        })
-      }
-      return response.status(500).json({
-        message: 'Unexpected error'
+      const globalError = err as AppError;
+    
+      return response.status(globalError.httpStatus).json({
+        message: globalError.message
       })
     }
   }

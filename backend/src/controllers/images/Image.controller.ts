@@ -22,14 +22,10 @@ export class ImageController implements IImageController {
         status: 'created',
       });
     } catch (err) {
-      if(err instanceof AppError){
-        return response.status(err.httpStatus).json({
-          message: err.message,
-          cause: err.cause
-        })
-      }
-      return response.status(500).json({
-        message: 'Unexpected error'
+      const globalError = err as AppError;
+    
+      return response.status(globalError.httpStatus).json({
+        message: globalError.message
       })
     }
   }
@@ -47,14 +43,10 @@ export class ImageController implements IImageController {
         message: 'Image updated',
       });
     } catch (err) {
-      if(err instanceof AppError){
-        return response.status(err.httpStatus).json({
-          message: err.message,
-          cause: err.cause
-        })
-      }
-      return response.status(500).json({
-        message: 'Unexpected error'
+      const globalError = err as AppError;
+    
+      return response.status(globalError.httpStatus).json({
+        message: globalError.message
       })
     }
   }
@@ -72,14 +64,10 @@ export class ImageController implements IImageController {
         message: 'Image deleted',
       });
     } catch (err) {
-      if(err instanceof AppError){
-        return response.status(err.httpStatus).json({
-          message: err.message,
-          cause: err.cause
-        })
-      }
-      return response.status(500).json({
-        message: 'Unexpected error'
+      const globalError = err as AppError;
+    
+      return response.status(globalError.httpStatus).json({
+        message: globalError.message
       })
     }
   }
