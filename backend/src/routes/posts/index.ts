@@ -4,16 +4,15 @@ import { PostsFactory } from '../../providers/posts/Posts.provider';
 
 export const postRouter = Router();
 
-postRouter.get('/auth/post', (request, response) => {
+postRouter.get('/post', (request, response) => {
   PostsFactory().list(request, response);
 });
-
-postRouter.post('/auth/post', AuthMiddleware, (request, response) => {
+postRouter.post('/create/post', AuthMiddleware, (request, response) => {
   PostsFactory().create(request, response);
 });
-postRouter.put('/auth/post/:id', (request, response) => {
+postRouter.put('/update/post/:id', (request, response) => {
   PostsFactory().update(request, response);
 });
-postRouter.delete('/auth/post/:id', (request, response) => {
+postRouter.delete('/delete/post/:id', (request, response) => {
   PostsFactory().delete(request, response);
 });
