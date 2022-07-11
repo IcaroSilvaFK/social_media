@@ -1,17 +1,18 @@
-import { Password, User } from 'phosphor-react-native';
+import { Eye, EyeSlash, Password, User } from 'phosphor-react-native';
 import React from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import {
   Keyboard,
-  TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
 
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { useNavigate } from '../../hooks/useRouter';
+import {useUser} from  '../../hooks/useUser'
+import {usePassword} from '../../hooks/usePassword'
 
-import { Box, Container, Form, Separator, Link } from './styles';
+import { Box, Container, Form, Separator, Link, Heading,LinkButton,Row,ButtonHighlight, Center } from './styles';
 
 interface IFormProps {
   email: string;
@@ -19,7 +20,9 @@ interface IFormProps {
 }
 
 export function Login() {
+  const {handleChangePasswrodVisible,isPassword} = usePassword()
   const { push } = useNavigate();
+  const  {Login,isError} = useUser()
   const methods = useForm<IFormProps>({
     defaultValues: {
       email: '',
@@ -28,14 +31,18 @@ export function Login() {
   });
 
   const onSubmit: SubmitHandler<IFormProps> = async (data) => {
-    console.log(data);
-    methods.reset();
+    // Login(data);
+    // if(isError){
+    //   methods.reset({password:''});
+    //   return 
+    // }
     push('Home');
   };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <Container>
+        <Heading>Social Media</Heading>
         <FormProvider {...methods}>
           <Form>
             <Input
@@ -44,22 +51,37 @@ export function Login() {
               leftIcon={<User size={25} weight='bold' />}
             />
             <Separator />
-            <Input
-              name='password'
-              placeholder='Digite seu password'
-              leftIcon={<Password size={25} weight='bold' />}
-            />
+            <Row>
+              <Input
+                name='password'
+                placeholder='Digite seu password'
+                leftIcon={<Password size={25} weight='bold' />}
+              />
+              <ButtonHighlight onPress={handleChangePasswrodVisible}>
+                {
+                  isPassword ? 
+                  (
+                    <Eye size={20} weight="bold" />
+                  ): (
+                    <EyeSlash size={20} weight="bold" />
+                  )
+                }
+            </ButtonHighlight>
+            </Row>
+           
             <Separator />
             <Box>
-              <TouchableOpacity onPress={() => push('Create')}>
+              <LinkButton onPress={() => push('Create')}>
                 <Link>Cadastre-se</Link>
-              </TouchableOpacity>
+              </LinkButton>
             </Box>
-            <Button
-              onPress={methods.handleSubmit(onSubmit)}
-              title='Entrar'
-              variant='solid'
-            />
+            <Center>
+              <Button
+                onPress={methods.handleSubmit(onSubmit)}
+                title='Entrar'
+                variant='solid'
+              />
+            </Center>
           </Form>
         </FormProvider>
       </Container>

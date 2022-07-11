@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '../configs/axios';
+import { useNavigate } from '../hooks/useRouter';
 
 interface IUserLoginProps {
   email: string;
@@ -29,6 +30,7 @@ interface IUserContextProps {
   user: IUserProps | null;
   Login(data: IUserLoginProps): void;
   Create(data: IUserCreateProps): void;
+  isError: boolean
 }
 
 export const UserContext = createContext<IUserContextProps>(
@@ -37,6 +39,7 @@ export const UserContext = createContext<IUserContextProps>(
 
 export function UserContextProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<IUserProps | null>(null);
+  const [isError, setIsError] = useState(false)
 
   useEffect(() => {
     (async () => {
@@ -62,7 +65,9 @@ export function UserContextProvider({ children }: { children: ReactNode }) {
       const { user, token } = data;
       await AsyncStorage.setItem('@token:social', token);
       setUser(user);
-    } catch (err) {}
+    } catch (err) {
+      setIsError(true)
+    }
   }, []);
 
   const Create = useCallback(async (userProps: IUserCreateProps) => {
@@ -71,11 +76,13 @@ export function UserContextProvider({ children }: { children: ReactNode }) {
       const { user, token } = data;
       await AsyncStorage.setItem('@token:social', token);
       setUser(user);
-    } catch (err) {}
+    } catch (err) {
+      setIsError(true)
+    }
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, Login, Create }}>
+    <UserContext.Provider value={{isError, user, Login, Create }}>
       {children}
     </UserContext.Provider>
   );

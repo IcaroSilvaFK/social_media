@@ -5,7 +5,7 @@ export const Container = styled.View`
   flex-direction: row;
   align-items: center;
 
-  padding: ${RFValue(5)}px;
+  padding: ${RFValue(6)}px;
 
   border: 1px solid ${({ theme }) => theme.colors.brand[500]};
 
@@ -21,4 +21,7 @@ export const TextInput = styled.TextInput`
 
   font-family: ${({ theme }) => theme.fonts.poppins[400]};
   width: 100%;
+
+  margin: 0 ${RFValue(4)}px;
+
 `;

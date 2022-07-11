@@ -65,5 +65,9 @@ export const theme = {
       700: 'Poppins_700Bold',
       900: 'Poppins_900Black',
     },
+    'dancing-script': {
+      400:'DancingScript_400Regular',
+      700:'DancingScript_700Bold'
+    }
   },
-};
+} as const;

@@ -6,6 +6,9 @@ import {
   Poppins_700Bold,
   Poppins_900Black,
 } from '@expo-google-fonts/poppins';
+import {
+  DancingScript_400Regular,DancingScript_700Bold
+} from '@expo-google-fonts/dancing-script'
 import { ThemeProvider } from 'styled-components';
 import { StatusBar } from 'expo-status-bar';
 import { theme } from './src/styles/theme';
@@ -18,6 +21,8 @@ export default function App() {
     Poppins_400Regular,
     Poppins_700Bold,
     Poppins_900Black,
+    DancingScript_400Regular,
+    DancingScript_700Bold
   });
 
   if (!fontsLoaded) {

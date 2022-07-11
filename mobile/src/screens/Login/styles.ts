@@ -10,11 +10,10 @@ export const Container = styled.View`
 `;
 
 export const Form = styled.View`
-  align-items: center;
-
   width: 100%;
 
   padding: ${RFValue(35)}px;
+  
 `;
 
 export const Separator = styled.View`
@@ -30,4 +29,31 @@ export const Box = styled.View`
   margin-bottom: ${RFValue(10)}PX;
 `;
 
-export const Link = styled.Text``;
+export const Link = styled.Text`
+  font-family: ${({theme}) => theme.fonts.poppins[300]};
+`;
+
+export const Heading = styled.Text`
+  font-size: ${RFValue(36)}px;
+  font-family: ${({theme}) => theme.fonts['dancing-script'][700]};
+  color:${({theme}) => theme.colors.brand[500]};
+`;
+
+export const LinkButton = styled.TouchableOpacity`
+  padding: ${RFValue(4)}px;
+  margin:0 ${RFValue(12)}px;
+`;
+
+export const Row = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+export const ButtonHighlight = styled.TouchableHighlight`
+  margin: 0 ${RFValue(5)}px;
+`;
+
+export const Center = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
