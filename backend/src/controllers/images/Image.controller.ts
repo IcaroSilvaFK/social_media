@@ -16,17 +16,17 @@ export class ImageController implements IImageController {
     }
 
     try {
-      await this.imagesService.create({ userId, avatar });
-
+      const userImage = await this.imagesService.create({ userId, avatar });
       return response.status(201).json({
         status: 'created',
+        image: userImage.avatar,
       });
     } catch (err) {
-      const globalError = (<AppError>err);
-    
+      const globalError = <AppError>err;
+
       return response.status(globalError.httpStatus).json({
-        message: globalError.message
-      })
+        message: globalError.message,
+      });
     }
   }
   async update(request: Request, response: Response): Promise<Response> {
@@ -43,11 +43,11 @@ export class ImageController implements IImageController {
         message: 'Image updated',
       });
     } catch (err) {
-      const globalError = (<AppError>err);
-    
+      const globalError = <AppError>err;
+
       return response.status(globalError.httpStatus).json({
-        message: globalError.message
-      })
+        message: globalError.message,
+      });
     }
   }
   async delete(request: Request, response: Response): Promise<Response> {
@@ -64,11 +64,11 @@ export class ImageController implements IImageController {
         message: 'Image deleted',
       });
     } catch (err) {
-      const globalError = (<AppError>err);
-    
+      const globalError = <AppError>err;
+
       return response.status(globalError.httpStatus).json({
-        message: globalError.message
-      })
+        message: globalError.message,
+      });
     }
   }
 }

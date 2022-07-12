@@ -9,7 +9,18 @@ import {
   IUserService,
   LoginResponseProps,
 } from './interface/UserService.interface';
-
+interface IGetUserProps {
+  _count: {
+    follows: number;
+  };
+  avatar_url: {
+    avatar: string;
+  } | null;
+  username: string;
+  email: string;
+  createdAt: Date;
+  id: string;
+}
 export class UsersService implements IUserService {
   constructor(
     private readonly usersRepository: IUsersReposiotry,
@@ -28,13 +39,13 @@ export class UsersService implements IUserService {
 
       const { token } = await this.refreshToken.create(newUser.id);
 
-      const { password: userpassword, ...user } = newUser;
+      const user = newUser;
       return { user, token };
     } catch (err) {
-      if(err instanceof AppError){
-        throw new AppError(err.message,err.httpStatus)
+      if (err instanceof AppError) {
+        throw new AppError(err.message, err.httpStatus);
       }
-      throw new AppError('Internal server error',500)
+      throw new AppError('Internal server error', 500);
     }
   }
   async update(id: string, data: Partial<IUserProps>): Promise<User> {
@@ -46,20 +57,20 @@ export class UsersService implements IUserService {
     try {
       return await this.usersRepository.update(id, data);
     } catch (err) {
-      if(err instanceof AppError){
-        throw new AppError(err.message,err.httpStatus)
+      if (err instanceof AppError) {
+        throw new AppError(err.message, err.httpStatus);
       }
-      throw new AppError('Internal server error',500)
+      throw new AppError('Internal server error', 500);
     }
   }
   async delete(id: string): Promise<void> {
     try {
       await this.usersRepository.delete(id);
     } catch (err) {
-      if(err instanceof AppError){
-        throw new AppError(err.message,err.httpStatus)
+      if (err instanceof AppError) {
+        throw new AppError(err.message, err.httpStatus);
       }
-      throw new AppError('Internal server error',500)
+      throw new AppError('Internal server error', 500);
     }
   }
   async login(email: string, password: string): Promise<LoginResponseProps> {
@@ -74,10 +85,21 @@ export class UsersService implements IUserService {
       }
       return { user: rest, token };
     } catch (err) {
-      if(err instanceof AppError){
-        throw new AppError(err.message,err.httpStatus)
+      if (err instanceof AppError) {
+        throw new AppError(err.message, err.httpStatus);
       }
-      throw new AppError('Internal server error',500)
+      throw new AppError('Internal server error', 500);
+    }
+  }
+  async getUser(id: string): Promise<IGetUserProps> {
+    try {
+      const user = await this.usersRepository.findById(id);
+      return user;
+    } catch (err) {
+      if (err instanceof AppError) {
+        throw new AppError(err.message, err.httpStatus);
+      }
+      throw new AppError('Internal server error', 500);
     }
   }
 }

@@ -26,11 +26,11 @@ export class UsersController implements IUsersController {
 
       return response.status(201).json(user);
     } catch (err) {
-      const globalError =(<AppError>err);
-    
+      const globalError = <AppError>err;
+
       return response.status(globalError.httpStatus).json({
-        message: globalError.message
-      })
+        message: globalError.message,
+      });
     }
   }
   async update(request: Request, response: Response): Promise<Response> {
@@ -47,11 +47,11 @@ export class UsersController implements IUsersController {
 
       return response.status(200).json(userUpdated);
     } catch (err) {
-      const globalError = (<AppError>err);
-    
+      const globalError = <AppError>err;
+
       return response.status(globalError.httpStatus).json({
-        message: globalError.message
-      })
+        message: globalError.message,
+      });
     }
   }
   async delete(request: Request, response: Response): Promise<Response> {
@@ -70,11 +70,11 @@ export class UsersController implements IUsersController {
         message: 'User deleted success',
       });
     } catch (err) {
-      const globalError =(<AppError>err);
-    
+      const globalError = <AppError>err;
+
       return response.status(globalError.httpStatus).json({
-        message: globalError.message
-      })
+        message: globalError.message,
+      });
     }
   }
   async login(request: Request, response: Response): Promise<Response> {
@@ -91,11 +91,29 @@ export class UsersController implements IUsersController {
 
       return response.status(200).json(user);
     } catch (err) {
-      const globalError =(<AppError>err);
-    
+      const globalError = <AppError>err;
+
       return response.status(globalError.httpStatus).json({
-        message: globalError.message
-      })
+        message: globalError.message,
+      });
+    }
+  }
+
+  async getUser(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params;
+    console.log(id);
+    try {
+      const user = await this.usersService.getUser(id);
+
+      return response.status(200).json({
+        user,
+      });
+    } catch (err) {
+      const globalError = <AppError>err;
+
+      return response.status(globalError.httpStatus).json({
+        message: globalError.message,
+      });
     }
   }
 }

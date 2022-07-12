@@ -27,9 +27,9 @@ export function CreateAccount() {
 
   const onSubmit:SubmitHandler<IFormProps> = async data => {
     Create(data);
-    // if(isError) return;
+    if(isError) return;
+    methods.reset();
     push('Home')
-   
   }
 
   return (

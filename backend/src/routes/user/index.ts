@@ -11,4 +11,8 @@ usersRouter.post('/user/login', (request, response) => {
   UsersFactory().login(request, response);
 });
 
+usersRouter.get('/user/:id', (request, response) => {
+  UsersFactory().getUser(request, response);
+});
+
 export { usersRouter };

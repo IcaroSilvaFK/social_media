@@ -1,18 +1,27 @@
 import { Eye, EyeSlash, Password, User } from 'phosphor-react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import {
-  Keyboard,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import { Keyboard, TouchableWithoutFeedback } from 'react-native';
 
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { useNavigate } from '../../hooks/useRouter';
-import {useUser} from  '../../hooks/useUser'
-import {usePassword} from '../../hooks/usePassword'
+import { useUser } from '../../hooks/useUser';
+import { usePassword } from '../../hooks/usePassword';
 
-import { Box, Container, Form, Separator, Link, Heading,LinkButton,Row,ButtonHighlight, Center } from './styles';
+import {
+  Box,
+  Container,
+  Form,
+  Separator,
+  Link,
+  Heading,
+  LinkButton,
+  Row,
+  ButtonHighlight,
+  Center,
+} from './styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface IFormProps {
   email: string;
@@ -20,9 +29,9 @@ interface IFormProps {
 }
 
 export function Login() {
-  const {handleChangePasswrodVisible,isPassword} = usePassword()
+  const { handleChangePasswrodVisible, isPassword } = usePassword();
   const { push } = useNavigate();
-  const  {Login,isError} = useUser()
+  const { Login, isError } = useUser();
   const methods = useForm<IFormProps>({
     defaultValues: {
       email: '',
@@ -30,12 +39,20 @@ export function Login() {
     },
   });
 
+  useEffect(() => {
+    (async () => {
+      await AsyncStorage.removeItem('@user:social');
+      await AsyncStorage.removeItem('@token:social');
+    })();
+  }, []);
+
   const onSubmit: SubmitHandler<IFormProps> = async (data) => {
-    // Login(data);
-    // if(isError){
-    //   methods.reset({password:''});
-    //   return 
-    // }
+    Login(data);
+    if (isError) {
+      methods.reset({ password: '' });
+      return;
+    }
+    methods.reset();
     push('Home');
   };
 
@@ -56,19 +73,17 @@ export function Login() {
                 name='password'
                 placeholder='Digite seu password'
                 leftIcon={<Password size={25} weight='bold' />}
+                isPassword={isPassword}
               />
               <ButtonHighlight onPress={handleChangePasswrodVisible}>
-                {
-                  isPassword ? 
-                  (
-                    <Eye size={20} weight="bold" />
-                  ): (
-                    <EyeSlash size={20} weight="bold" />
-                  )
-                }
-            </ButtonHighlight>
+                {isPassword ? (
+                  <Eye size={20} weight='bold' />
+                ) : (
+                  <EyeSlash size={20} weight='bold' />
+                )}
+              </ButtonHighlight>
             </Row>
-           
+
             <Separator />
             <Box>
               <LinkButton onPress={() => push('Create')}>

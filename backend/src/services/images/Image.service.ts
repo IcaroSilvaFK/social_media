@@ -10,34 +10,38 @@ export class ImagesService implements IImageService {
 
   async create({ avatar, userId }: ImageProps): Promise<Image> {
     try {
-      const urlImage = await client.uploader.upload(avatar)
+      const urlImage = await client.uploader.upload(avatar);
 
-      return await this.imagesRepository.create({ avatar: urlImage.secure_url , userId });
+      return await this.imagesRepository.create({
+        avatar: avatar,
+        userId,
+      });
     } catch (err) {
-      if(err instanceof AppError){
-        throw new AppError(err.message, err.httpStatus)
+      if (err instanceof AppError) {
+        throw new AppError(err.message, err.httpStatus);
       }
-      throw new AppError('Internal server Error', 500)
+      throw new AppError('Internal server Error', 500);
     }
   }
-  async update(id: string, data: ImageProps): Promise<Image> {
+  async update(id: string, data: string): Promise<Image> {
     try {
+      const urlImage = await client.uploader.upload(data);
       return await this.imagesRepository.update(id, data);
     } catch (err) {
-      if(err instanceof AppError){
-        throw new AppError(err.message, err.httpStatus)
+      if (err instanceof AppError) {
+        throw new AppError(err.message, err.httpStatus);
       }
-      throw new AppError('Internal server Error', 500)
+      throw new AppError('Internal server Error', 500);
     }
   }
   async delete(id: string): Promise<void> {
     try {
       await this.imagesRepository.delete(id);
     } catch (err) {
-      if(err instanceof AppError){
-        throw new AppError(err.message, err.httpStatus)
+      if (err instanceof AppError) {
+        throw new AppError(err.message, err.httpStatus);
       }
-      throw new AppError('Internal serve Error', 500)
+      throw new AppError('Internal serve Error', 500);
     }
   }
 }

@@ -4,17 +4,32 @@ import { IPostRepository } from '../../repositories/posts/interfaces/PostsReposi
 import { IPostType } from './interface/Posts.interface';
 import { IPostService } from './interface/PostsService.interface';
 
+interface IReturnListPorps {
+  created_at: Date;
+  description: string;
+  id: string;
+  image_cover: string | null;
+  updated_at: Date;
+  user: {
+    id: string;
+    username: string;
+    avatar_url: {
+      avatar: string;
+    } | null;
+  };
+}
+
 export class PostService implements IPostService {
   constructor(private readonly postsRepository: IPostRepository) {}
 
-  async list(): Promise<Post[]> {
+  async list(): Promise<IReturnListPorps[]> {
     try {
       return await this.postsRepository.list();
     } catch (err) {
-      if(err instanceof AppError){
-        throw new AppError(err.message,err.httpStatus)
+      if (err instanceof AppError) {
+        throw new AppError(err.message, err.httpStatus);
       }
-      throw new AppError('Internal server error',500)
+      throw new AppError('Internal server error', 500);
     }
   }
 
@@ -26,10 +41,10 @@ export class PostService implements IPostService {
     try {
       return await this.postsRepository.create(user_id, data);
     } catch (err) {
-      if(err instanceof AppError){
-        throw new AppError(err.message,err.httpStatus)
+      if (err instanceof AppError) {
+        throw new AppError(err.message, err.httpStatus);
       }
-      throw new AppError('Internal server error',500)
+      throw new AppError('Internal server error', 500);
     }
   }
 
@@ -41,10 +56,10 @@ export class PostService implements IPostService {
     try {
       return await this.postsRepository.update(post_id, data);
     } catch (err) {
-      if(err instanceof AppError){
-        throw new AppError(err.message,err.httpStatus)
+      if (err instanceof AppError) {
+        throw new AppError(err.message, err.httpStatus);
       }
-      throw new AppError('Internal server error',500)
+      throw new AppError('Internal server error', 500);
     }
   }
 
@@ -52,10 +67,10 @@ export class PostService implements IPostService {
     try {
       await this.postsRepository.delete(post_id);
     } catch (err) {
-      if(err instanceof AppError){
-        throw new AppError(err.message,err.httpStatus)
+      if (err instanceof AppError) {
+        throw new AppError(err.message, err.httpStatus);
       }
-      throw new AppError('Internal server error',500)
+      throw new AppError('Internal server error', 500);
     }
   }
 }
